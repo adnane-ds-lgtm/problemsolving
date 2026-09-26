@@ -1,0 +1,4 @@
+-sqrt(n) < n/2< n  (il permet de reduire temps excution ). exemple : nombre premier
+
+Miller-Rabin: fourmule qui sert a prouver plus rapiedement que nombre premier
+si an−1modn=1 alors n est premier 
