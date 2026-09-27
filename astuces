@@ -2,3 +2,6 @@
 
 Miller-Rabin: fourmule qui sert a prouver plus rapiedement que nombre premier
 si an−1modn=1 alors n est premier 
+
+dans la recherche en doit penser au set au lieu parcourir toute la list 
+car set stock les nombre unique , ca facilite recherche

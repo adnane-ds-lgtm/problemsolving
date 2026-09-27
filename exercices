@@ -1,0 +1,443 @@
+Oui. Si tu veux apprendre le **problem solving comme un ingénieur senior**, il faut surtout pratiquer des problèmes où tu dois **analyser → formuler → chercher une solution optimale → justifier pourquoi elle est optimale**.
+
+Voici une progression d'exercices, du facile au très difficile.
+
+### 🟢 Niveau 1 — Logique et optimisation simple
+
+**Exercice 1 — Deux nombres**
+
+Étant donné un tableau :
+
+```text
+[2, 7, 11, 15, 3, 6]
+```
+
+Trouver deux nombres dont la somme vaut `9`.
+
+Contraintes :
+
+* éviter une double boucle `O(n²)`
+* viser `O(n)`
+
+---
+
+**Exercice 2 — Maximum sans trier**
+
+```text
+[10, 4, 25, 8, 19, 3]
+```
+
+Trouver :
+
+* le maximum
+* le deuxième maximum
+
+Sans utiliser `sort()`.
+
+Objectif : `O(n)`.
+
+---
+
+**Exercice 3 — Élément majoritaire**
+
+```text
+[2, 2, 1, 1, 1, 2, 2]
+```
+
+Trouver l'élément apparaissant plus de `n/2` fois.
+
+Question supplémentaire :
+
+> Peut-on le résoudre avec `O(1)` mémoire ?
+
+---
+
+### 🟡 Niveau 2 — Optimisation algorithmique
+
+**Exercice 4 — Sous-tableau maximum**
+
+```text
+[-2, 1, -3, 4, -1, 2, 1, -5, 4]
+```
+
+Trouver le sous-tableau ayant la somme maximale.
+
+Résultat attendu :
+
+```text
+[4, -1, 2, 1]
+```
+
+Somme :
+
+```text
+6
+```
+
+Cherche une solution en `O(n)`.
+
+👉 C'est le fameux **Kadane's Algorithm**.
+
+---
+
+**Exercice 5 — Meilleur achat/vente**
+
+Prix d'une action :
+
+```text
+[7, 1, 5, 3, 6, 4]
+```
+
+Tu peux acheter une seule fois et vendre une seule fois.
+
+Trouver le profit maximal.
+
+```text
+achat = 1
+vente = 6
+
+profit = 5
+```
+
+Puis fais une deuxième version où tu peux effectuer plusieurs transactions.
+
+---
+
+**Exercice 6 — Sac à dos**
+
+Tu as :
+
+```text
+objets = [
+    (poids=2, valeur=6),
+    (poids=2, valeur=10),
+    (poids=3, valeur=12)
+]
+```
+
+Sac :
+
+```text
+capacité = 5
+```
+
+Trouver la combinaison donnant la valeur maximale.
+
+Puis réponds :
+
+> Pourquoi une stratégie gloutonne basée uniquement sur la valeur/poids ne fonctionne pas toujours pour le 0/1 Knapsack ?
+
+---
+
+### 🟠 Niveau 3 — Problèmes classiques de production
+
+**Exercice 7 — Cache LRU**
+
+Imagine une API :
+
+```text
+GET /users/123
+```
+
+La base de données prend :
+
+```text
+200 ms
+```
+
+Tu veux mettre en cache les utilisateurs.
+
+Le cache peut contenir seulement :
+
+```text
+3 utilisateurs
+```
+
+Accès :
+
+```text
+A
+B
+C
+A
+D
+B
+E
+```
+
+Détermine après chaque accès quel élément doit être supprimé.
+
+Puis conçois une structure permettant :
+
+```text
+GET  -> O(1)
+PUT  -> O(1)
+DELETE -> O(1)
+```
+
+Indice :
+
+```text
+HashMap + Doubly Linked List
+```
+
+---
+
+**Exercice 8 — Rate Limiter**
+
+Une API doit accepter au maximum :
+
+```text
+100 requêtes / minute / utilisateur
+```
+
+Utilisateur :
+
+```text
+user123
+```
+
+Requêtes :
+
+```text
+12:00:01
+12:00:02
+...
+```
+
+Conçois un rate limiter.
+
+Compare :
+
+```text
+Fixed Window
+Sliding Window
+Token Bucket
+Leaky Bucket
+```
+
+Question senior :
+
+> Que se passe-t-il si 100 requêtes arrivent exactement à `12:00:59` puis 100 autres à `12:01:00` ?
+
+---
+
+### 🔴 Niveau 4 — Architecture / DevOps
+
+**Exercice 9 — Serveur qui tombe**
+
+Tu as :
+
+```text
+Internet
+    |
+    v
+Load Balancer
+    |
+ ┌──┴──┐
+ v     v
+API1  API2
+ |
+ PostgreSQL
+```
+
+API1 tombe.
+
+Questions :
+
+1. Comment détecter la panne ?
+2. Comment retirer API1 du Load Balancer ?
+3. Comment éviter que les utilisateurs perdent leur session ?
+4. Comment remettre API1 automatiquement ?
+5. Comment vérifier que la nouvelle instance fonctionne ?
+6. Que se passe-t-il si PostgreSQL tombe ?
+
+---
+
+**Exercice 10 — Migration MySQL → PostgreSQL**
+
+Production :
+
+```text
+MySQL
+  |
+  | 10 millions de lignes
+  v
+PostgreSQL
+```
+
+Tu dois migrer **sans arrêter l'application**.
+
+Trouve une stratégie permettant :
+
+```text
+MySQL
+   |
+   | initial migration
+   v
+PostgreSQL
+   |
+   | CDC
+   v
+synchronisation
+```
+
+Puis :
+
+```text
+Application
+      |
+      v
+PostgreSQL
+```
+
+Tu dois réfléchir à :
+
+* CDC
+* données perdues
+* doublons
+* ordre des événements
+* rollback
+* validation
+* cutover
+
+---
+
+### 🔥 Niveau 5 — Vrai problème de problem solving
+
+**Exercice 11 — API lente**
+
+Ton API était à :
+
+```text
+200 ms
+```
+
+Après une nouvelle version :
+
+```text
+3.5 secondes
+```
+
+Tu ne sais pas pourquoi.
+
+Tu disposes uniquement de :
+
+```text
+CPU
+RAM
+Disk
+Network
+Database
+Logs
+```
+
+Construis une méthode d'investigation.
+
+⚠️ Ne commence pas directement à modifier le code.
+
+Tu dois d'abord répondre :
+
+```text
+Est-ce CPU ?
+Est-ce RAM ?
+Est-ce DB ?
+Est-ce réseau ?
+Est-ce N+1 query ?
+Est-ce external API ?
+Est-ce lock ?
+Est-ce GC ?
+```
+
+Objectif :
+
+> Trouver la cause avec le minimum d'hypothèses.
+
+---
+
+### 🧠 Niveau 6 — Très difficile
+
+**Exercice 12 — URL Shortener**
+
+Construis :
+
+```text
+https://myapp.com/aB92xK
+```
+
+qui redirige vers :
+
+```text
+https://example.com/article/123456789
+```
+
+Contraintes :
+
+```text
+100 millions URLs
+10 000 requêtes/sec
+99.99% disponibilité
+```
+
+Tu dois déterminer :
+
+* structure DB
+* génération de l'ID
+* collision
+* cache
+* réplication
+* partitionnement
+* CDN
+* monitoring
+* backup
+* stratégie de scaling
+
+---
+
+### 🧩 La méthode que je te conseille
+
+Pour chaque exercice, **ne code pas immédiatement**.
+
+Utilise cette méthode :
+
+```text
+1. Comprendre le problème
+        ↓
+2. Définir les contraintes
+        ↓
+3. Faire un exemple
+        ↓
+4. Trouver une solution naïve
+        ↓
+5. Mesurer sa complexité
+        ↓
+6. Chercher le goulot d'étranglement
+        ↓
+7. Optimiser
+        ↓
+8. Prouver/corriger les cas limites
+        ↓
+9. Implémenter
+        ↓
+10. Tester
+```
+
+Par exemple :
+
+```text
+Solution naïve
+      ↓
+O(n²)
+      ↓
+Pourquoi ?
+      ↓
+On répète certaines recherches
+      ↓
+HashMap
+      ↓
+O(n)
+```
+
+C'est exactement cette démarche qui développe le **problem solving**, plutôt que mémoriser 50 algorithmes.
+
+Si tu veux vraiment t'entraîner, je peux aussi te donner une série de **20 problèmes type entretien Senior Backend/DevOps**, un par un, **sans donner la solution**, puis corriger ton raisonnement après chaque tentative.
